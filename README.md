@@ -414,4 +414,5 @@ Get-Process -Name node -ErrorAction SilentlyContinue | Stop-Process -Force
 
 Started backend server (npm run dev)
 Started frontend server (python -m http.server 8080)#   n e p a l - t o u r i s m - w e b s i t e  
+ #   n e p a l - t o u r i s m - w e b s i t e  
  
