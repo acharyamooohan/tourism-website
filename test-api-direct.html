@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct API Test</title>
+</head>
+<body>
+    <h1>Direct API Test</h1>
+    <button onclick="testAPI()">Test API Connection</button>
+    <button onclick="testSimplePost()">Test Simple POST</button>
+    
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing API...';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/health');
+                const data = await response.text();
+                resultDiv.innerHTML = `<p>API Health: ${response.status} - ${data}</p>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<p>API Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testSimplePost() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing POST...';
+
+            const testData = {
+                name: "Test User",
+                email: "test@example.com",
+                subject: "Test Subject",
+                message: "Test message"
+            };
+
+            console.log('Sending data:', testData);
+            console.log('JSON string:', JSON.stringify(testData));
+
+            try {
+                const response = await fetch('http://localhost:3000/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+
+                resultDiv.innerHTML = `<p>POST Result: ${response.status}</p><pre>${responseText}</pre>`;
+            } catch (error) {
+                console.error('POST Error:', error);
+                resultDiv.innerHTML = `<p>POST Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

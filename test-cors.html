@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Form Test</title>
+</head>
+<body>
+    <h1>Contact Form CORS Test</h1>
+    <button onclick="testContactForm()">Test Contact Form</button>
+    <div id="result"></div>
+
+    <script>
+        async function testContactForm() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        subject: 'CORS Test',
+                        message: 'Testing if CORS is working from frontend.'
+                    })
+                });
+
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <h3>Success!</h3>
+                    <p><strong>Status:</strong> ${response.status}</p>
+                    <p><strong>Response:</strong> ${JSON.stringify(data, null, 2)}</p>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>Error!</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p>This could be a CORS issue if the error mentions network or fetch.</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

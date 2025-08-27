@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Event Test</title>
+</head>
+<body>
+    <h1>Form Event Test</h1>
+    
+    <form id="contactForm">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="Event Test" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="event@test.com" required>
+        </div>
+        <div>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" value="Event Subject">
+        </div>
+        <div>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required>Event test message</textarea>
+        </div>
+        <button type="submit">Send Message</button>
+    </form>
+    
+    <div id="formMessage"></div>
+    <div id="formLoading" style="display: none;">Loading...</div>
+    <div id="debug"></div>
+    
+    <script>
+        console.log('Form event test loaded');
+        
+        // Test without ContactFormHandler first
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contactForm');
+            const debugDiv = document.getElementById('debug');
+            
+            debugDiv.innerHTML += '<p>Form found: ' + (form ? 'YES' : 'NO') + '</p>';
+            
+            if (form) {
+                // Add event listener manually to test form submission
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    debugDiv.innerHTML += '<p>Form submit event triggered!</p>';
+                    
+                    // Test manual fetch
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        subject: document.getElementById('subject').value,
+                        message: document.getElementById('message').value
+                    };
+                    
+                    debugDiv.innerHTML += '<p>Form data: ' + JSON.stringify(formData) + '</p>';
+                    
+                    // Make manual fetch request
+                    fetch('http://localhost:3000/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => {
+                        debugDiv.innerHTML += '<p>Response status: ' + response.status + '</p>';
+                        return response.json();
+                    })
+                    .then(data => {
+                        debugDiv.innerHTML += '<p>Response data: ' + JSON.stringify(data) + '</p>';
+                    })
+                    .catch(error => {
+                        debugDiv.innerHTML += '<p>Error: ' + error.message + '</p>';
+                    });
+                });
+            }
+        });
+    </script>
+    
+    <!-- Now include the ContactFormHandler -->
+    <script src="contact.js"></script>
+</body>
+</html>

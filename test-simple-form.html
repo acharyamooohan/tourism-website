@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Contact Form Test</title>
+</head>
+<body>
+    <h1>Simple Contact Form Test</h1>
+    
+    <div id="formMessage" class="form-message" style="display: none;"></div>
+    
+    <form id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required><br><br>
+        <input type="email" id="email" placeholder="Your Email" required><br><br>
+        <input type="text" id="subject" placeholder="Subject"><br><br>
+        <textarea id="message" placeholder="Your Message" required></textarea><br><br>
+        
+        <div id="formLoading" style="display: none;">Sending...</div>
+        
+        <button type="submit">Send Message</button>
+    </form>
+
+    <script>
+        console.log('Simple test page loaded');
+        
+        // Inline contact form handler for testing
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            console.log('Form data:', formData);
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                console.log('Response status:', response.status);
+                const result = await response.json();
+                console.log('Response data:', result);
+                
+                if (result.success) {
+                    alert('Message sent successfully!');
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Network error: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

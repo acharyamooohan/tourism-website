@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover Nepal's top 100 tourist destinations with authentic information, travel tips, and high-quality images.">
+    <title>Top 100 Tourist Destinations in Nepal | Official Guide</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Preconnect to image CDNs for faster loading -->
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://cdn.pixabay.com">
+    <!-- Add favicon -->
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" type="image/svg+xml">
+</head>
+<body>
+    <header id="home">
+        <nav>
+            <div class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Nepal Flag" width="40">
+                <h1>Nepal Tourism</h1>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#travel-tips">Travel Tips</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="contact-form.html">Contact</a></li>
+            </ul>
+            <div class="mobile-menu" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+<section id="hero" class="hero">
+        <div class="hero-slideshow">
+            <div class="slide active" style="background-image: url('https://cdn.pixabay.com/photo/2023/01/20/18/08/nepal-7732285_1280.jpg')"></div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+            <div class="slide" style="background-image: url('https://cdn.pixabay.com/photo/2020/04/06/12/28/fishtail-mountain-5009522_1280.jpg')"></div>
+            <div class="slide" style="background-image: url('https://cdn.pixabay.com/photo/2019/12/13/08/21/gokyo-ri-4692458_1280.jpg')"></div>
+            <div class="slide" style="background-image: url('https://cdn.pixabay.com/photo/2017/07/04/05/56/pashupatinath-2470062_1280.jpg')"></div>
+        </div>
+        
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <h1>Discover Nepal's Hidden Treasures</h1>
+            <p>Explore <span id="destinationCount">100</span> breathtaking destinations across the Himalayan wonderland</p>
+            <a href="#destinations" class="btn primary-btn">Explore Now</a>
+        </div>
+
+        <div class="slide-indicator">
+            <div class="indicator-dot active" data-slide="0"></div>
+            <div class="indicator-dot" data-slide="1"></div>
+            <div class="indicator-dot" data-slide="2"></div>
+            <div class="indicator-dot" data-slide="3"></div>
+            <div class="indicator-dot" data-slide="4"></div>
+        </div>
+
+        <div class="slide-info">
+            <span id="slideLocation">Nepal Tea House Annapurna circuit</span>
+        </div>
+    </section>
+
+        <section id="destination-search">
+            <div class="search-container">
+                <h2>Find Your Perfect Destination</h2>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search destinations...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-options">
+                    <div class="filter">
+                        <label for="regionFilter">Region:</label>
+                        <select id="regionFilter">
+                            <option value="all">All Regions</option>
+                            <option value="kathmandu">Kathmandu Valley</option>
+                            <option value="pokhara">Pokhara & Annapurna</option>
+                            <option value="everest">Everest Region</option>
+                            <option value="chitwan">Chitwan & Terai</option>
+                            <option value="lumbini">Lumbini & Western Nepal</option>
+                        </select>
+                    </div>
+                    <div class="filter">
+                        <label for="categoryFilter">Category:</label>
+                        <select id="categoryFilter">
+                            <option value="all">All Categories</option>
+                            <option value="nature">Nature & Landscapes</option>
+                            <option value="culture">Cultural Sites</option>
+                            <option value="adventure">Adventure</option>
+                            <option value="pilgrimage">Pilgrimage</option>
+                            <option value="wildlife">Wildlife</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="destinations">
+            <h2>Popular Destinations</h2>
+            <div class="destination-grid" id="destinationContainer">
+                <!-- Destinations will be dynamically loaded here -->
+            </div>
+            <div class="loading-indicator" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>Loading more destinations...</p>
+            </div>
+            <button id="loadMoreBtn" class="btn primary-btn">Load More Destinations</button>
+        </section>
+
+        <section id="categories">
+            <h2>Explore By Category</h2>
+            <div class="category-container">
+                <div class="category-card" data-category="nature">
+                    <div class="category-icon"><i class="fas fa-mountain"></i></div>
+                    <h3>Nature & Landscapes</h3>
+                    <p>Breathtaking mountains, lakes, and valleys</p>
+                </div>
+                <div class="category-card" data-category="culture">
+                    <div class="category-icon"><i class="fas fa-landmark"></i></div>
+                    <h3>Cultural Sites</h3>
+                    <p>Ancient temples, palaces, and heritage sites</p>
+                </div>
+                <div class="category-card" data-category="adventure">
+                    <div class="category-icon"><i class="fas fa-hiking"></i></div>
+                    <h3>Adventure</h3>
+                    <p>Trekking, climbing, rafting, and more</p>
+                </div>
+                <div class="category-card" data-category="pilgrimage">
+                    <div class="category-icon"><i class="fas fa-om"></i></div>
+                    <h3>Pilgrimage</h3>
+                    <p>Sacred Buddhist and Hindu sites</p>
+                </div>
+                <div class="category-card" data-category="wildlife">
+                    <div class="category-icon"><i class="fas fa-paw"></i></div>
+                    <h3>Wildlife</h3>
+                    <p>National parks and wildlife reserves</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="featured-destination">
+            <div class="featured-content">
+                <h2>Featured Destination</h2>
+                <div id="featuredDestinationContent">
+                    <!-- Featured destination will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <section id="travel-tips">
+            <h2>Essential Travel Tips</h2>
+            <div class="tips-container">
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>Best Time to Visit</h3>
+                    <p>The best seasons to visit Nepal are Spring (March-May) and Autumn (September-November) with clear skies and pleasant temperatures.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="fas fa-passport"></i></div>
+                    <h3>Visa Information</h3>
+                    <p>Most visitors can obtain a visa on arrival at Tribhuvan International Airport. Tourist visas are available for 15, 30, or 90 days.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="fas fa-wallet"></i></div>
+                    <h3>Currency</h3>
+                    <p>The Nepalese Rupee (NPR) is the local currency. ATMs are available in major cities, but carry some cash for remote areas.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="fas fa-language"></i></div>
+                    <h3>Language</h3>
+                    <p>Nepali is the official language, but English is widely spoken in tourist areas and establishments.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="fas fa-plug"></i></div>
+                    <h3>Electricity</h3>
+                    <p>Nepal uses 230V AC electricity with type C, D, and M power plugs. Bring a universal adapter for your devices.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="fas fa-hand-holding-medical"></i></div>
+                    <h3>Health & Safety</h3>
+                    <p>Consult your doctor about vaccinations before travel. Purchase travel insurance with adequate coverage for trekking activities.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <h2>Traveler Experiences</h2>
+            <div class="testimonial-slider" id="testimonialSlider">
+                <!-- Testimonials will be dynamically loaded here -->
+            </div>
+            <div class="testimonial-controls">
+                <button id="prevTestimonial"><i class="fas fa-chevron-left"></i></button>
+                <button id="nextTestimonial"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>About Nepal Tourism</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://cdn.pixabay.com/photo/2025/06/29/04/28/nepal-9686151_1280.jpg" alt="Nepal" >
+                </div>
+                <div class="about-text">
+                    <p>Nepal, nestled in the heart of the Himalayas, is a land of breathtaking natural beauty, rich cultural heritage, and warm hospitality. Home to eight of the world's fourteen highest peaks, including Mount Everest, it offers some of the most spectacular mountain scenery and trekking opportunities on earth.</p>
+                    <p>Beyond its majestic mountains, Nepal boasts diverse landscapes ranging from subtropical forests to alpine meadows. The country's cultural heritage is equally impressive, with ancient temples, historic cities, and vibrant festivals reflecting its Hindu and Buddhist traditions.</p>
+                    <p>From the bustling streets of Kathmandu to the serene lakes of Pokhara, from the jungle wildlife of Chitwan to the sacred birthplace of Buddha in Lumbini, Nepal offers unforgettable experiences for every type of traveler.</p>
+                    <div class="key-facts">
+                        <div class="fact">
+                            <span class="fact-number">8</span>
+                            <span class="fact-text">of the world's highest mountains</span>
+                        </div>
+                        <div class="fact">
+                            <span class="fact-number">10</span>
+                            <span class="fact-text">UNESCO World Heritage Sites</span>
+                        </div>
+                        <div class="fact">
+                            <span class="fact-number">123</span>
+                            <span class="fact-text">different ethnic groups</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Nepal Tourism Board, Bhrikutimandap, Kathmandu, Nepal</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+977-1-4256909</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>info@ntb.org.np</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-globe"></i>
+                        <p>www.welcomenepal.com</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <div id="formMessage" class="form-message" style="display: none;"></div>
+                    
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" placeholder="Subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" placeholder="Your Message" required></textarea>
+                        </div>
+                        
+                        <div id="formLoading" class="loading-indicator" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sending your message...
+                        </div>
+                        
+                        <button type="submit" class="btn primary-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#travel-tips">Travel Tips</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Popular Destinations</h3>
+                <ul>
+                    <li><a href="#" data-destination="mount-everest">Mount Everest</a></li>
+                    <li><a href="#" data-destination="annapurna-circuit">Annapurna Circuit</a></li>
+                    <li><a href="#" data-destination="kathmandu-durbar-square">Kathmandu Durbar Square</a></li>
+                    <li><a href="#" data-destination="pokhara">Pokhara</a></li>
+                    <li><a href="#" data-destination="chitwan-national-park">Chitwan National Park</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Visa Information</a></li>
+                    <li><a href="#">Travel Insurance</a></li>
+                    <li><a href="#">Trekking Permits</a></li>
+                    <li><a href="#">Weather Updates</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Subscribe</h3>
+                <p>Get the latest updates and offers</p>
+                <form id="subscribeForm">
+                    <input type="email" placeholder="Your Email" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Nepal Tourism. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Sitemap</a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scrollToTop" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+    
+    <!-- Frontend Scripts -->
+    <script src="script.js"></script>
+    <script src="destinations-data.js"></script>
+    <script src="more-destinations.js"></script>
+    
+    <!-- Simple Contact Form Handler -->
+    <script>
+        console.log('Index page loaded');
+        
+        // Simple inline contact form handler (working version)
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                console.log('Contact form found, adding event listener');
+                
+                contactForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    console.log('Contact form submitted');
+                    
+                    // Show loading state
+                    const loadingDiv = document.getElementById('formLoading');
+                    const messageDiv = document.getElementById('formMessage');
+                    const submitBtn = e.target.querySelector('button[type="submit"]');
+                    
+                    loadingDiv.style.display = 'block';
+                    messageDiv.style.display = 'none';
+                    submitBtn.disabled = true;
+                    
+                    // Get form data
+                    const formData = {
+                        name: document.getElementById('name').value.trim(),
+                        email: document.getElementById('email').value.trim(),
+                        subject: document.getElementById('subject').value.trim(),
+                        message: document.getElementById('message').value.trim()
+                    };
+                    
+                    console.log('Sending form data:', formData);
+                    
+                    try {
+                        const response = await fetch('http://localhost:3000/api/contact', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        });
+                        
+                        console.log('Response status:', response.status);
+                        const result = await response.json();
+                        console.log('Response data:', result);
+                        
+                        // Hide loading
+                        loadingDiv.style.display = 'none';
+                        submitBtn.disabled = false;
+                        
+                        // Show result message
+                        messageDiv.style.display = 'block';
+                        if (result.success) {
+                            messageDiv.className = 'form-message success';
+                            messageDiv.textContent = result.message || 'Message sent successfully!';
+                            contactForm.reset(); // Clear form
+                        } else {
+                            messageDiv.className = 'form-message error';
+                            messageDiv.textContent = result.message || 'Failed to send message';
+                        }
+                        
+                        // Hide message after 5 seconds
+                        setTimeout(() => {
+                            messageDiv.style.display = 'none';
+                        }, 5000);
+                        
+                    } catch (error) {
+                        console.error('Contact form error:', error);
+                        
+                        // Hide loading
+                        loadingDiv.style.display = 'none';
+                        submitBtn.disabled = false;
+                        
+                        // Show error message
+                        messageDiv.style.display = 'block';
+                        messageDiv.className = 'form-message error';
+                        messageDiv.textContent = 'Network error. Please try again later.';
+                        
+                        // Hide message after 5 seconds
+                        setTimeout(() => {
+                            messageDiv.style.display = 'none';
+                        }, 5000);
+                    }
+                });
+            } else {
+                console.log('Contact form not found');
+            }
+        });
+    </script>
+</body>
+</html> 

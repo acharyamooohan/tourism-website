@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Contact Form</title>
+</head>
+<body>
+    <h1>Debug Contact Form</h1>
+    
+    <form id="contactForm">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="Debug Test" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="debug@test.com" required>
+        </div>
+        <div>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" value="Debug Subject">
+        </div>
+        <div>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required>Debug message from contact form test</textarea>
+        </div>
+        <button type="submit">Send Message</button>
+    </form>
+    
+    <div id="formMessage"></div>
+    <div id="formLoading" style="display: none;">Loading...</div>
+    
+    <script src="contact.js"></script>
+    <script>
+        console.log('Debug page loaded');
+        console.log('ContactFormHandler available:', typeof ContactFormHandler !== 'undefined');
+        
+        // Additional debugging
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded in debug page');
+            console.log('Contact form element:', document.getElementById('contactForm'));
+        });
+        
+        // Manual form test
+        function manualTest() {
+            console.log('Manual test triggered');
+            if (typeof ContactFormHandler !== 'undefined') {
+                const handler = new ContactFormHandler();
+                handler.init();
+                console.log('Manual handler initialized');
+            } else {
+                console.error('ContactFormHandler not available');
+            }
+        }
+        
+        // Add manual test button
+        window.addEventListener('load', () => {
+            const button = document.createElement('button');
+            button.textContent = 'Manual Test';
+            button.onclick = manualTest;
+            document.body.appendChild(button);
+        });
+    </script>
+</body>
+</html>
