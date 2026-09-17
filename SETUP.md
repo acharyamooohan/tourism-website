@@ -51,9 +51,9 @@ npm start
 
 Your Gmail is configured and working:
 - ✅ **SMTP**: smtp.gmail.com:587
-- ✅ **Email**: acharyamooohan@gmail.com
+- ✅ **Email**:
 - ✅ **App Password**: Configured
-- ✅ **Admin Email**: acharyamooohan@gmail.com
+- ✅ **Admin Email**: 
 
 **Email Features Working:**
 - ✅ Admin notifications to your email
