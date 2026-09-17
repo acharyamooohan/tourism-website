@@ -1,418 +1,230 @@
-# Nepal Tourism Website Backend
+# Nepal Tourism Website
 
-A complete backend solution for handling contact forms with admin dashboard for a Nepal tourism website.
+A responsive Nepal tourism website with a static, destination-focused frontend and a lightweight Express-based backend for contact submissions, email handling, and admin management.
+
+## Why this project exists
+
+This project gives travelers a polished landing experience for discovering destinations in Nepal while also providing a production-ready backend for managing visitor inquiries.
+
+Key benefits:
+
+- Explore curated Nepal destinations by category, region, and search term
+- Present rich travel information, destination cards, and featured content
+- Collect and store visitor messages from the public website
+- Notify administrators and send auto-replies via email
+- Manage submissions with a browser-based admin dashboard
+- Run locally with SQLite and scale toward PostgreSQL in production
+
+## Project overview
+
+The project combines:
+
+- A frontend built with plain HTML, CSS, and JavaScript
+- A Node.js + Express API for submission handling
+- Sequelize models for contact persistence
+- SMTP-based email delivery for notifications and confirmations
+- Static assets and dashboard pages served from the same repository
 
 ## Features
 
-- 🚀 **Express.js Backend** with contact form API
-- 📧 **Email Integration** with nodemailer
-- 🗄️ **Database Support** (SQLite for development, PostgreSQL for production)
-- 🛡️ **Security Features** (Rate limiting, input validation, spam detection)
-- 📊 **Admin Dashboard** for managing contact submissions
-- 🎨 **Responsive UI** for both contact form and admin panel
+- Destination browsing with search and filters
+- Hero section, travel tips, featured destination blocks, and testimonials
+- Contact form submission with validation and spam detection
+- Email notifications to an admin inbox and user auto-response
+- Contact admin dashboard for reading/filtering/status updates
+- Rate limiting, CORS checks, input validation, and security headers
+- SQLite in local development and PostgreSQL-ready configuration in production
 
-## Quick Start
+## Repository layout
 
-### 1. Install Dependencies
+```text
+.
+├── index.html                 # Public Nepal tourism homepage
+├── styles.css                 # Site styling
+├── script.js                  # Frontend behavior
+├── destinations-data.js       # Destination catalog data
+├── more-destinations.js       # Extra destination data
+├── contact-form.html          # Test contact page
+├── admin.html                 # Admin dashboard
+├── admin.js                   # Admin dashboard JavaScript
+├── contact-frontend.js        # Reusable frontend contact script
+├── server.js                  # Express API and server logic
+├── server-production.js       # Production-ready server variant
+├── config/
+│   └── database.js            # Sequelize database connection
+├── models/
+│   └── Contact.js             # Contact model
+├── data/                      # Local SQLite database directory
+├── .env.production.example    # Example production environment variables
+├── SETUP.md                   # Local setup notes
+├── DEPLOYMENT.md              # Production deployment checklist
+├── RUNNING-LOCALLY.md         # Local run guide
+├── README-PRODUCTION.md       # Production-focused notes
+├── package.json               # Scripts and dependencies
+├── run-local.bat              # Windows local startup helper
+├── start-website.bat          # Windows full-site startup helper
+└── README.md                  # Project documentation
+```
+
+## Prerequisites
+
+- Node.js 14+
+- npm
+- Optional: Python 3 for serving the frontend locally
+- SMTP service credentials for email functionality
+
+## Getting started
+
+### 1. Clone the project
+
+```bash
+git clone https://github.com/acharyamooohan/tourism-website.git
+cd tourism-website
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Environment Setup
+### 3. Configure environment variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the project root.
 
 ```env
-# Server Configuration
-PORT=3000
 NODE_ENV=development
+PORT=3000
+FRONTEND_URL=http://localhost:8080
 
-# Frontend URL (for CORS)
-FRONTEND_URL=http://localhost:3000
-
-# SMTP Email Configuration (Required for email functionality)
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
+SMTP_SECURE=false
 SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-
-# Admin Email (where contact forms will be sent)
-ADMIN_EMAIL=admin@yourwebsite.com
-
-# Database Configuration (Optional - SQLite used by default)
-# For PostgreSQL in production:
-# DB_HOST=localhost
-# DB_PORT=5432
-# DB_NAME=contact_form
-# DB_USER=your_db_user
-# DB_PASS=your_db_password
+SMTP_PASS=your-gmail-app-password
+ADMIN_EMAIL=admin@example.com
 ```
 
-### 3. Email Setup
+For production deployment, use the template in [`.env.production.example`](.env.production.example) and replace the placeholder values with your real settings.
 
-#### Gmail Setup:
-1. Enable 2-factor authentication
-2. Generate an app-specific password
-3. Use the app password in `SMTP_PASS`
+Note:
 
-#### Other Email Providers:
-- **Outlook/Hotmail**: `smtp-mail.outlook.com:587`
-- **Yahoo**: `smtp.mail.yahoo.com:587`
-- **Custom/cPanel**: Use your hosting provider's SMTP settings
+- For Gmail, enable 2-factor authentication and use an app-specific password.
+- Keep `.env` out of source control.
 
-### 4. Start the Server
+### 4. Start the backend
 
 ```bash
-# Development mode with auto-reload
 npm run dev
+```
 
-# Production mode
+or:
+
+```bash
 npm start
 ```
 
-### 5. Test the Setup
+### 5. Serve the frontend locally
 
-1. **Contact Form**: Open `contact-form.html` in your browser
-2. **Admin Dashboard**: Navigate to `admin.html`
-3. **API Health Check**: Visit `http://localhost:3000/api/health`
+Open the website from a static server in another terminal:
 
-## Project Structure
-
-```
-nepal_tourism_website/
-├── config/
-│   └── database.js          # Database configuration
-├── models/
-│   ├── Contact.js           # Contact model definition
-│   └── ContactModel.js      # Alternative contact model
-├── data/                    # SQLite database storage
-├── server.js                # Main server file
-├── contact.js               # Frontend contact form handler
-├── admin.js                 # Admin dashboard JavaScript
-├── contact-form.html        # Test contact form
-├── admin.html              # Admin dashboard
-├── index.html              # Main website
-├── script.js               # Main website JavaScript
-├── styles.css              # Website styles
-├── .env                    # Environment variables
-└── package.json            # Project dependencies
+```bash
+python -m http.server 8080
 ```
 
-## API Endpoints
+Then visit:
 
-### Public Endpoints
+- Home page: http://localhost:8080
+- Contact form page: http://localhost:8080/contact-form.html
+- Admin dashboard: http://localhost:8080/admin.html
+- API health check: http://localhost:3000/api/health
 
-- `POST /api/contact` - Submit contact form
-- `GET /api/health` - Health check
+## API usage
 
-### Admin Endpoints
+### Health check
 
-- `GET /api/admin/contacts` - List all contacts with pagination
-- `GET /api/admin/contacts/:id` - Get specific contact details
-- `GET /api/admin/stats` - Get contact statistics
-- `PATCH /api/admin/contacts/:id` - Update contact status
-- `POST /api/admin/contacts/:id/spam` - Mark contact as spam
+```bash
+curl http://localhost:3000/api/health
+```
+
+### Submit a contact form
+
+```bash
+curl -X POST http://localhost:3000/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Asha Sharma",
+    "email": "asha@example.com",
+    "subject": "Trekking trip",
+    "message": "I would like information about the Annapurna Circuit and suitable travel dates."
+  }'
+```
+
+### Admin endpoints
+
+- `GET /api/admin/contacts`
+- `GET /api/admin/contacts/:id`
+- `GET /api/admin/stats`
+- `PATCH /api/admin/contacts/:id`
+- `POST /api/admin/contacts/:id/spam`
+
+These routes are intended for internal use and should be protected before public deployment.
 
 ## Database
 
-### Development
-- Uses SQLite database stored in `data/contacts.db`
-- Automatically created on first run
+The project is configured for local SQLite by default and is production-friendly for PostgreSQL.
 
-### Production
-- Configure PostgreSQL in environment variables
-- Set `NODE_ENV=production`
+- Development: SQLite in `data/contacts.db`
+- Production: PostgreSQL configuration via environment variables
 
-## Security Features
+## Security and validation
 
-- **Rate Limiting**: 5 submissions per 15 minutes per IP
-- **Input Validation**: Server-side validation with express-validator
-- **Spam Detection**: Basic keyword-based spam filtering
-- **CORS Protection**: Configurable allowed origins
-- **SQL Injection Protection**: Sequelize ORM prevents SQL injection
+The backend includes:
 
-## Frontend Integration
+- Rate limiting
+- Input validation using `express-validator`
+- Spam keyword detection
+- CORS origin checks
+- Security headers via Helmet
+- Response compression
+- Request logging in development and production modes
 
-### Contact Form Integration
+## Documentation
 
-Include the contact form handler in your HTML:
+Additional guidance is available in:
 
-```html
-<script src="contact.js"></script>
-```
-
-Required HTML elements:
-- Form with id `contactForm`
-- Input fields with ids: `name`, `email`, `subject`, `message`
-- Submit button
-- Optional: `formMessage` div for status messages
-- Optional: `formLoading` div for loading indicator
-
-### Admin Dashboard
-
-Access the admin dashboard at `/admin.html` to:
-- View all contact submissions
-- Filter by status (new, read, replied, archived)
-- Mark messages as spam
-- Update contact status
-- Export contacts as CSV
-- View statistics
-
-## Environment Variables
-
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| PORT | Server port | 3000 | No |
-| NODE_ENV | Environment | development | No |
-| FRONTEND_URL | CORS origin | http://localhost:3000 | No |
-| SMTP_HOST | Email server host | - | Yes |
-| SMTP_PORT | Email server port | 587 | No |
-| SMTP_USER | Email username | - | Yes |
-| SMTP_PASS | Email password | - | Yes |
-| ADMIN_EMAIL | Recipient email | - | Yes |
-| DB_HOST | Database host | - | No |
-| DB_PORT | Database port | 5432 | No |
-| DB_NAME | Database name | - | No |
-| DB_USER | Database user | - | No |
-| DB_PASS | Database password | - | No |
-
-## Deployment
-
-### Heroku
-
-1. Create a Heroku app
-2. Add PostgreSQL addon: `heroku addons:create heroku-postgresql:hobby-dev`
-3. Set environment variables: `heroku config:set VARIABLE=value`
-4. Deploy: `git push heroku main`
-
-### VPS/Server
-
-1. Install Node.js and PostgreSQL
-2. Clone the repository
-3. Set up environment variables
-4. Use PM2 for process management: `pm2 start server.js`
-5. Set up reverse proxy with Nginx
-
-## Troubleshooting
-
-### Port Already in Use Error
-If you get `EADDRINUSE: address already in use :::3000`:
-
-**Windows:**
-```bash
-# Find process using port 3000
-netstat -ano | findstr :3000
-
-# Kill the process (replace PID with actual process ID)
-taskkill /F /PID <PID>
-
-# Or kill all Node processes
-Get-Process -Name node -ErrorAction SilentlyContinue | Stop-Process -Force
-```
-
-**Linux/Mac:**
-```bash
-# Find and kill process using port 3000
-lsof -ti:3000 | xargs kill -9
-
-# Or use a different port
-PORT=3001 npm start
-```
-
-### Email Not Sending
-- Check SMTP credentials in `.env` file
-- Verify firewall/network settings
-- For Gmail: Use app-specific password, not regular password
-- Test with a simple email service first
-
-### Database Issues
-- Ensure `data` directory exists and is writable
-- Delete `data/contacts.db` if database gets corrupted
-- Check PostgreSQL connection for production
-- If getting infinite database sync loops, set `sync({ force: false })`
-
-### CORS Errors
-- Set `FRONTEND_URL` to your frontend domain in `.env`
-- Check browser console for detailed errors
-- Ensure your frontend and backend are on allowed origins
-
-## Development
-
-### Adding New Features
-
-1. **New Model Fields**: Update `models/Contact.js`
-2. **New API Endpoints**: Add routes in `server.js`
-3. **Frontend Updates**: Modify `contact.js` or `admin.js`
-
-### Testing
-
-```bash
-# Install test dependencies
-npm install --save-dev jest supertest
-
-# Run tests
-npm test
-```
+- [SETUP.md](SETUP.md)
+- [DEPLOYMENT.md](DEPLOYMENT.md)
+- [RUNNING-LOCALLY.md](RUNNING-LOCALLY.md)
+- [README-PRODUCTION.md](README-PRODUCTION.md)
 
 ## Contributing
 
+Contributions are welcome.
+
 1. Fork the repository
 2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+3. Make a focused change
+4. Verify the behavior locally
+5. Open a pull request with a clear summary and testing notes
 
-## License
+Before submitting a PR:
 
-MIT License - see LICENSE file for details.
+- keep commits small and meaningful
+- avoid committing real credentials or environment files
+- update docs when behavior or setup changes
 
-## Support
+## Support and maintenance
 
-For issues and questions:
-1. Check the troubleshooting section
-2. Review environment variable setup
-3. Check server logs for detailed error messages
-4. Create an issue on GitHub with detailed information
+For help, review the setup and deployment documents first, then open a GitHub issue with:
 
-## Complete Setup Process
+- a clear description of the problem
+- steps to reproduce it
+- relevant logs or screenshots
+- your environment details
 
-### Prerequisites
-- Node.js (v14 or higher)
-- Python (for serving static files)
-- Gmail account (for email functionality)
+This project is maintained by [acharyamooohan](https://github.com/acharyamooohan).
 
-### Step-by-Step Setup
+## Notes
 
-#### 1. Clone and Install
-```bash
-# Clone the repository
-git clone <repository-url>
-cd nepal_tourism_website
-
-# Install dependencies
-npm install
-```
-
-#### 2. Environment Configuration
-Create a `.env` file in the root directory:
-```env
-# Server Configuration
-PORT=3000
-NODE_ENV=development
-
-# Frontend URL (for CORS)
-FRONTEND_URL=http://localhost:8080
-
-# SMTP Email Configuration (Gmail)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-
-# Admin Email (where contact forms will be sent)
-ADMIN_EMAIL=your-email@gmail.com
-```
-
-#### 3. Gmail Setup for Email
-1. Go to your Google Account settings
-2. Enable 2-Factor Authentication
-3. Generate an App Password:
-   - Go to Security → 2-Step Verification → App passwords
-   - Select "Mail" and generate password
-   - Use this password in `SMTP_PASS`
-
-#### 4. Start the Application
-
-**Option A: Using Batch File (Recommended)**
-```bash
-cd "d:\Aaltu Faaltu\nepal_tourism_website" && .\start-website.bat
-```
-
-**Option B: Manual Start**
-```bash
-# Terminal 1: Start Backend
-node server.js
-
-# Terminal 2: Start Frontend
-python -m http.server 8080
-```
-
-**Option C: Using NPM Scripts**
-```bash
-# Terminal 1: Start Backend
-npm run dev
-
-# Terminal 2: Start Frontend  
-python -m http.server 8080
-```
-
-#### 5. Access Your Application
-- **🏠 Main Website**: http://localhost:8080
-- **📧 Contact Form Test**: http://localhost:8080/contact-form.html
-- **⚙️ Admin Dashboard**: http://localhost:8080/admin.html
-- **🔧 Backend API**: http://localhost:3000
-
-#### 6. Test the Setup
-1. **Health Check**: Visit http://localhost:3000/api/health
-2. **Contact Form**: 
-   - Go to http://localhost:8080
-   - Scroll to contact section
-   - Fill and submit the form
-3. **Admin Dashboard**: 
-   - Visit http://localhost:8080/admin.html
-   - Check if your test message appears
-4. **Email**: Check your email for auto-reply
-
-### Quick Start Commands
-
-```bash
-# Full setup (first time)
-npm install
-# Create .env file with your credentials
-.\start-website.bat
-
-# Daily usage
-.\start-website.bat
-
-# Stop servers
-# Press Ctrl+C in terminals or close command windows
-```
-
-### Verification Checklist
-
-- [ ] Backend server running on port 3000
-- [ ] Frontend server running on port 8080  
-- [ ] Contact form submits successfully
-- [ ] Email notifications working
-- [ ] Admin dashboard accessible
-- [ ] Database storing contacts
-
-### Common Issues and Solutions
-
-**Port 3000 already in use:**
-```bash
-# Kill existing processes
-Get-Process -Name node -ErrorAction SilentlyContinue | Stop-Process -Force
-```
-
-**Email not working:**
-- Verify Gmail app password is correct
-- Check firewall/antivirus settings
-- Ensure 2FA is enabled on Gmail
-
-**Form not submitting:**
-- Check browser console for errors
-- Verify both servers are running
-- Test API directly: http://localhost:3000/api/health
-
-**Admin dashboard empty:**
-- Submit a test contact form first
-- Check backend console for database errors
-- Verify database file exists in `data/` folder
-
-
-Started backend server (npm run dev)
-Started frontend server (python -m http.server 8080)#   n e p a l - t o u r i s m - w e b s i t e  
- #   n e p a l - t o u r i s m - w e b s i t e  
- 
+The app is designed as a tourism website plus internal backend utilities. It is useful for local demos, portfolio projects, and small deployment scenarios, but production admin access should still be restricted and protected with authentication.
