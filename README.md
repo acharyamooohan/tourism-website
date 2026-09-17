@@ -1,4 +1,8 @@
-# Nepal Tourism Website
+## Live Demo
+
+The user-facing website is deployed on Render as a static site:
+
+[Visit the Nepal Tourism Website]([https://your-render-site.onrender.com](https://nepal-tourism-website.onrender.com/))# Nepal Tourism Website
 
 A responsive Nepal tourism website with a static, destination-focused frontend and a lightweight Express-based backend for contact submissions, email handling, and admin management.
 
